@@ -25,23 +25,10 @@ export default class Login extends Component {
         user: JSON.parse(localUser)
       })
     }
-
-    // else {
-    //   firebaseAuth().onAuthStateChanged(user => {
-    //     if (user) {
-    //         console.log("User signed in: ", JSON.stringify(user));
-    //         this.setState({
-    //           user:user
-    //         });
-    //         localStorage.user = JSON.stringify(this.state.user);
-    //     }
-    //   })
-    // }
   }
 
   handleGoogleLogin() {
     let promise = loginWithGoogle();
-
     promise.then(result => {
       let user = result.user;
       console.log(user);
@@ -60,11 +47,8 @@ export default class Login extends Component {
     promise.catch(e => {
       console.log(e.message);
     })
-    // loginWithGoogle()
-    //   .catch(function (error) {
-    //       alert(error); // or show toast
-    // });
   }
+
 
   render() {
     const iconStyles = {
