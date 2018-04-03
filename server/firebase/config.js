@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 
 const config  = {
-  apiKey: "AIzaSyDCayI5N1f_WUKhYXDImJNbz2f3dLzt7d0",
+  apiKey: {apiKey},
   authDomain: "what-todo-app.firebaseapp.com",
   databaseURL: "https://what-todo-app.firebaseio.com",
   projectId: "what-todo-app",
