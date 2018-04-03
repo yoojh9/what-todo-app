@@ -2,7 +2,7 @@
 
 ## About
 - React.js , react-router, express, webpack, firebase를 사용하여 만든 ToDoApp
-- 현재 개발 진행 중으로 firebase는 아직 연동 안함
+- firebase는 구글 로그인만 현재는 연동
 
 ## Installation
 

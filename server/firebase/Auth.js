@@ -14,7 +14,8 @@ export function login (email, pw) {
 }
 
 export function loginWithGoogle() {
-    return firebaseAuth().signInWithRedirect(googleProvider);
+  //  return firebaseAuth().signInWithRedirect(googleProvider);
+  return firebaseAuth().signInWithPopup(googleProvider);
 }
 
 export function currentUser(){

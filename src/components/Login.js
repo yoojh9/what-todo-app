@@ -18,30 +18,52 @@ export default class Login extends Component {
   }
 
   componentWillMount(){
-    firebaseAuth().onAuthStateChanged(user => {
-      if (user) {
-          console.log("User signed in: ", JSON.stringify(user));
-          this.setState({
-            user:user
-          });
-        //  localStorage.removeItem(firebaseAuthKey);
+    const localUser = localStorage.user;
 
-          // here you could authenticate with you web server to get the
-          // application specific token so that you do not have to
-          // authenticate with firebase every time a user logs in
-      //    localStorage.setItem(appTokenKey, user.uid);
+    if(localUser){
+      this.setState({
+        user: JSON.parse(localUser)
+      })
+    }
 
-          // store the token
-
-      }
-  });
+    // else {
+    //   firebaseAuth().onAuthStateChanged(user => {
+    //     if (user) {
+    //         console.log("User signed in: ", JSON.stringify(user));
+    //         this.setState({
+    //           user:user
+    //         });
+    //         localStorage.user = JSON.stringify(this.state.user);
+    //     }
+    //   })
+    // }
   }
 
   handleGoogleLogin() {
-    loginWithGoogle()
-      .catch(function (error) {
-          alert(error); // or show toast
+    let promise = loginWithGoogle();
+
+    promise.then(result => {
+      let user = result.user;
+      console.log(user);
+
+      firebaseAuth().onAuthStateChanged(user => {
+        if (user) {
+            console.log("User signed in: ", JSON.stringify(user));
+            this.setState({
+              user:user
+            });
+            localStorage.user = JSON.stringify(this.state.user);
+        }
+      })
     });
+
+    promise.catch(e => {
+      console.log(e.message);
+    })
+    // loginWithGoogle()
+    //   .catch(function (error) {
+    //       alert(error); // or show toast
+    // });
   }
 
   render() {
