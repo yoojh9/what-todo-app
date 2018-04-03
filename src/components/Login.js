@@ -1,61 +1,71 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {FontIcon, RaisedButton} from "material-ui";
+import Avatar from 'material-ui/Avatar';
+import {loginWithGoogle, currentUser} from "../../build/firebase/Auth";
+import {firebaseAuth} from "../../build/firebase/config";
 
-class Login extends Component {
+export default class Login extends Component {
   constructor(props){
     super(props);
 
     this.state = {
       errors: {},
-      user: {
-        email: '',
-        password: ''
+      user: null,
+    }
+
+    this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
+  }
+
+  componentWillMount(){
+    firebaseAuth().onAuthStateChanged(user => {
+      if (user) {
+          console.log("User signed in: ", JSON.stringify(user));
+          this.setState({
+            user:user
+          });
+        //  localStorage.removeItem(firebaseAuthKey);
+
+          // here you could authenticate with you web server to get the
+          // application specific token so that you do not have to
+          // authenticate with firebase every time a user logs in
+      //    localStorage.setItem(appTokenKey, user.uid);
+
+          // store the token
+
       }
-    };
+  });
+  }
+
+  handleGoogleLogin() {
+    loginWithGoogle()
+      .catch(function (error) {
+          alert(error); // or show toast
+    });
   }
 
   render() {
-    return (
-      <Card className="container" style={{margin:'5% 20% 20% 20%', paddingTop:'5px'}} align="center">
-      <form action="/" onSubmit={console.log('login')} style={{textAlign:'center'}}>
-        <h2 className="card-heading">Login</h2>
+    const iconStyles = {
+        color: "#ffffff"
+    };
 
-        {this.state.errors.summary && <p className="error-message">{this.state.errors.summary}</p>}
-
-        <div className="field-line">
-          <TextField
-            floatingLabelText="Email"
-            name="email"
-            errorText={this.state.errors.email}
-            onChange={console.log('change')}
-            value={this.state.user.email}
+    if(this.state.user){
+      console.log(this.state.user)
+      return (
+        <Avatar src={this.state.user.photoURL} />
+      )
+    } else {
+      return (
+        <div>
+          <RaisedButton
+            label="Sign in with Google"
+            labelColor={"#ffffff"}
+            backgroundColor="#dd4b39"
+            icon={<FontIcon className="fa fa-google-plus" style={iconStyles}/>}
+            onClick={this.handleGoogleLogin}
           />
         </div>
-
-        <div className="field-line">
-          <TextField
-            floatingLabelText="Password"
-            type="password"
-            name="password"
-            onChange={console.log('change')}
-            errorText={this.state.errors.password}
-            value={this.state.user.password}
-          />
-        </div>
-        <br/>
-        <div className="button-line">
-          <RaisedButton type="submit" label="Log in" primary />
-        </div>
-
-        <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
-      </form>
-    </Card>
-    );
+      )
+    }
   }
 }
-
-export default Login;

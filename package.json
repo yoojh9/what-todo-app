@@ -4,6 +4,7 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
+    "firebase": "^4.12.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "history": "^4.7.2",

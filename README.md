@@ -11,7 +11,6 @@ $ npm install -g webpack babel
 $ npm install
 ```
 
----
 
 ## run scripts
 
