@@ -30,22 +30,19 @@ export default class AddTodo extends Component {
 
 	render() {
 		return(
-			<MuiThemeProvider>
 				<div>
 					<form id="myForm">
-					<Paper style={{width: '90%', leftMargin: '15px'}} zDepth={1}>
-					<div
-						style={{marginLeft: '10px'}}
-					>
-						<TextField
-							hintText="What needs to be done?"
-							className="AddText"
-							fullWidth={true}
-							onChange={(e) => this.setState({ inputValue: e.target.value })}
-						>
-						</TextField>
-					</div>
-					</Paper>
+						<Paper style={{width: '90%', leftMargin: '15px'}} zDepth={1}>
+							<div	style={{marginLeft: '10px'}}>
+								<TextField
+									hintText="What needs to be done?"
+									className="AddText"
+									fullWidth={true}
+									onChange={(e) => this.setState({ inputValue: e.target.value })}
+								>
+								</TextField>
+							</div>
+						</Paper>
 						<br/>
 						<RaisedButton
 							type="submit"
@@ -54,9 +51,7 @@ export default class AddTodo extends Component {
 							onClick={this.onClick}
 						/>
 					</form>
-
 				</div>
-			</MuiThemeProvider>
 		)
 	}
 }

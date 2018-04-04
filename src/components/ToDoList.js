@@ -15,6 +15,7 @@ class ToDoList extends Component {
     super(props);
 
     this.state = {
+      slideIndex: 0,
       todos:[{
         id:'1',
         task:'퇴근'
@@ -43,6 +44,7 @@ class ToDoList extends Component {
              Todo List
            </h1>
          </div>
+
          </div>
 
          <List style={{marginLeft: '5%'}}>
