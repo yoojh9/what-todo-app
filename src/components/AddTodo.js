@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import uuid from 'uuid';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import {db} from "../../build/firebase/config";
 
 export default class AddTodo extends Component {
 
@@ -17,15 +19,18 @@ export default class AddTodo extends Component {
 
 	onClick(event) {
 		event.preventDefault();
-		// var todo = this.state.inputValue;
-		// if(todo=='') return
-		// else {
-		// 	var form = document.getElementById("myForm");
-		// 	form.reset()
-		// 	this.props.handleClick(todo);
-		// 	this.state.inputValue = ''
-		// }
-		console.log('click')
+		const localUser = JSON.parse(localStorage.user);
+		const uid = uuid.v1();
+		console.log(uid)
+		console.log(localUser)
+
+		db.ref('todos/'+localUser.uid+'/'+uid).set({
+			uuid: uid,
+			userid: localUser.uid,
+			date: this.props.date,
+			todo: this.state.inputValue
+		});
+
 	}
 
 	render() {

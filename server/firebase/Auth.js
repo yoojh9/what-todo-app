@@ -1,4 +1,4 @@
-import { ref, firebaseAuth, googleProvider } from './config'
+import { db, firebaseAuth, googleProvider } from './config'
 
 export function auth (email, pw) {
   return firebaseAuth().createUserWithEmailAndPassword(email, pw)
@@ -27,10 +27,11 @@ export function resetPassword (email) {
 }
 
 export function saveUser (user) {
-  return ref.child(`users/${user.uid}/info`)
+  return db.child(`users/${user.uid}`)
     .set({
+      uid: user.uid,
       email: user.email,
-      uid: user.uid
+      name: user.displayName,
     })
     .then(() => user)
 }

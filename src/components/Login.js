@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import {FontIcon, RaisedButton} from "material-ui";
 import Avatar from 'material-ui/Avatar';
-import {loginWithGoogle, currentUser} from "../../build/firebase/Auth";
+import {loginWithGoogle, saveUser, currentUser} from "../../build/firebase/Auth";
 import {firebaseAuth} from "../../build/firebase/config";
 
 export default class Login extends Component {
@@ -31,17 +31,7 @@ export default class Login extends Component {
     let promise = loginWithGoogle();
     promise.then(result => {
       let user = result.user;
-      console.log(user);
-
-      firebaseAuth().onAuthStateChanged(user => {
-        if (user) {
-            console.log("User signed in: ", JSON.stringify(user));
-            this.setState({
-              user:user
-            });
-            localStorage.user = JSON.stringify(this.state.user);
-        }
-      })
+      handleAuthChanged(user);
     });
 
     promise.catch(e => {
@@ -49,6 +39,17 @@ export default class Login extends Component {
     })
   }
 
+  handleAuthChanged(user){
+    firebaseAuth().onAuthStateChanged(user => {
+      if (user) {
+          console.log("User signed in: ", JSON.stringify(user));
+          this.setState({
+            user:user
+          });
+          localStorage.user = JSON.stringify(this.state.user);
+      }
+    })
+  }
 
   render() {
     const iconStyles = {
